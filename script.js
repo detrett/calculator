@@ -4,48 +4,46 @@ const operators = ["+", "—", "×", "÷"];
 const resultBtn = document.getElementById('=');
 const clearBtn = document.getElementById('C');
 
-let leftNum = "";
-let rightNum = "";
+let leftNum = 0;
+let rightNum = 0;
 let currentOperator = "";
 let displayText = "";
 
 function add(a, b) {
-    let intA = parseInt(a);
-    let intB = parseInt (b);
-    result = intA + intB;
+    result = a + b;
     displayText = result;
     leftNum = result;
     currentOperator = "";
 }
 
 function subtract(a, b) {
-    let intA = parseInt(a);
-    let intB = parseInt (b);
-    result = intA - intB;
+    result = a - b;
     displayText = result;
     leftNum = result;
     currentOperator = "";
 }
 
 function multiply(a, b) {
-    let intA = parseInt(a);
-    let intB = parseInt (b);
-    result = intA * intB;
+    result = a * b;
     displayText = result;
     leftNum = result;
     currentOperator = "";
 }
 
 function divide(a, b) {
-    let intA = parseInt(a);
-    let intB = parseInt (b);
-    result = intA / intB;
-    displayText = result;
-    leftNum = result;
-    currentOperator = "";
+    if (b === 0) {
+        reset();
+        display.textContent = "Nice try chump";
+    } else {
+        result = a / b;
+        displayText = result;
+        leftNum = result;
+        currentOperator = "";
+    }
 }
 
 function operate(operator, a, b) {
+    console.log(a + operator + b);
     switch (operator) {
         case "+": {
             add(a, b);
@@ -64,7 +62,6 @@ function operate(operator, a, b) {
         }
         case "÷": {
             divide(a, b);
-            writeToDisplay("");
             break;
         }
         default: {
@@ -82,9 +79,21 @@ function isOperator(input) {
 }
 
 function writeToDisplay(input) {
-    display.textContent = displayText + input;
-    if (!isOverflowing(display) && !isOperator(input)) displayText += input;
-    display.textContent = displayText;
+    if(displayText === "Nice try chump") {
+        display.textContent = input;
+    } else {
+        display.textContent = displayText + input;
+        if (!isOverflowing(display) && !isOperator(input)) displayText += input;
+        display.textContent = displayText;
+    }
+}
+
+function reset() {
+    leftNum = "";
+    currentOperator = "";
+    rightNum = "";
+    displayText = "";
+    writeToDisplay("");
 }
 
 for (let i = 0; i < 10; i++) {
@@ -98,25 +107,25 @@ for (let operator of operators) {
     const button = document.getElementById(`${operator}`);
     button.addEventListener('click', (event) => {
         currentOperator = operator;
-        leftNum = displayText;
+        if(Number.isInteger(parseInt(displayText))) {
+            leftNum = parseInt(displayText);
+        } else leftNum = 0;
         displayText = "";
         writeToDisplay(operator);
     })
 }
 
 resultBtn.addEventListener('click', (event) => {
-    console.log(leftNum + currentOperator + rightNum);
-    if(leftNum !== "" || currentOperator !== "") {
-        rightNum = displayText;
-        displayText = "";
-        operate(currentOperator, leftNum, rightNum);
+    if (currentOperator !== "") {
+        if(Number.isInteger(parseInt(leftNum))) leftNum = parseInt(leftNum);
+        if(Number.isInteger(parseInt(displayText))) rightNum = parseInt(displayText);
+        console.log("Preview:" + leftNum + currentOperator + rightNum);
+        if(Number.isInteger(leftNum) && Number.isInteger(rightNum)) {
+            operate(currentOperator, leftNum, rightNum);
+        }
     }
 })
 
 clearBtn.addEventListener('click', (event) => {
-    leftNum = "";
-    currentOperator = "";
-    rightNum = "";
-    displayText = "";
-    writeToDisplay("");
+    reset();
 })
