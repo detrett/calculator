@@ -35,7 +35,7 @@ function divide(a, b) {
         reset();
         display.textContent = "Nice try chump";
     } else {
-        result = a / b;
+        result = Math.round(((a / b) * 10) / 10);
         displayText = result;
         leftNum = result;
         currentOperator = "";
@@ -62,6 +62,7 @@ function operate(operator, a, b) {
         }
         case "÷": {
             divide(a, b);
+            writeToDisplay("");
             break;
         }
         default: {
