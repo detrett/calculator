@@ -1,4 +1,5 @@
-const display = document.getElementById('screen');
+const displayContainerWidth = document.getElementById('screen').clientWidth;
+const display = document.getElementById('display');
 
 let leftNum = 0;
 let rightNum = 0;
@@ -21,8 +22,8 @@ function divide(a, b) {
     console.log(a / b);
 }
 
-function operate(operator, a, b){
-    switch(operator) {
+function operate(operator, a, b) {
+    switch (operator) {
         case "+": {
             add(a, b);
             break;
@@ -39,13 +40,27 @@ function operate(operator, a, b){
             divide(a, b);
             break;
         }
-        default:{
+        default: {
             console.log("Operator not supported");
         }
     }
 }
 
+function isOverflowing(element) {
+    console.log(displayContainerWidth);
+    console.log(element.offsetWidth);
+    return element.offsetWidth > displayContainerWidth;
+  }
+
 function writeToDisplay(input) {
-    displayText += input;
+    display.textContent = displayText + input;
+    if (!isOverflowing(display)) displayText += input;
     display.textContent = displayText;
+}
+
+for (let i = 0; i < 10; i++) {
+    const button = document.getElementById(`${i}`);
+    button.addEventListener('click', (event) => {
+        writeToDisplay(i);
+    })
 }

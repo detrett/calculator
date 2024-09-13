@@ -19,6 +19,9 @@
     align-items: center;
     font-family: 'Orbitron', sans-serif;
     font-size: 3em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     width: 400px;
     height: 72px;
     padding: 16px 8px;
