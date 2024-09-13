@@ -1,43 +1,70 @@
 const displayContainerWidth = document.getElementById('screen').clientWidth;
 const display = document.getElementById('display');
+const operators = ["+", "—", "×", "÷"];
+const resultBtn = document.getElementById('=');
+const clearBtn = document.getElementById('C');
 
-let leftNum = 0;
-let rightNum = 0;
-let operator = "";
+let leftNum = "";
+let rightNum = "";
+let currentOperator = "";
 let displayText = "";
 
 function add(a, b) {
-    console.log(a + b);
+    let intA = parseInt(a);
+    let intB = parseInt (b);
+    result = intA + intB;
+    displayText = result;
+    leftNum = result;
+    currentOperator = "";
 }
 
 function subtract(a, b) {
-    console.log(a - b);
+    let intA = parseInt(a);
+    let intB = parseInt (b);
+    result = intA - intB;
+    displayText = result;
+    leftNum = result;
+    currentOperator = "";
 }
 
 function multiply(a, b) {
-    console.log(a * b);
+    let intA = parseInt(a);
+    let intB = parseInt (b);
+    result = intA * intB;
+    displayText = result;
+    leftNum = result;
+    currentOperator = "";
 }
 
 function divide(a, b) {
-    console.log(a / b);
+    let intA = parseInt(a);
+    let intB = parseInt (b);
+    result = intA / intB;
+    displayText = result;
+    leftNum = result;
+    currentOperator = "";
 }
 
 function operate(operator, a, b) {
     switch (operator) {
         case "+": {
             add(a, b);
+            writeToDisplay("");
             break;
         }
-        case "-": {
+        case "—": {
             subtract(a, b);
+            writeToDisplay("");
             break;
         }
-        case "*": {
+        case "×": {
             multiply(a, b);
+            writeToDisplay("");
             break;
         }
-        case "/": {
+        case "÷": {
             divide(a, b);
+            writeToDisplay("");
             break;
         }
         default: {
@@ -47,14 +74,16 @@ function operate(operator, a, b) {
 }
 
 function isOverflowing(element) {
-    console.log(displayContainerWidth);
-    console.log(element.offsetWidth);
     return element.offsetWidth > displayContainerWidth;
-  }
+}
+
+function isOperator(input) {
+    return operators.includes(input);
+}
 
 function writeToDisplay(input) {
     display.textContent = displayText + input;
-    if (!isOverflowing(display)) displayText += input;
+    if (!isOverflowing(display) && !isOperator(input)) displayText += input;
     display.textContent = displayText;
 }
 
@@ -64,3 +93,30 @@ for (let i = 0; i < 10; i++) {
         writeToDisplay(i);
     })
 }
+
+for (let operator of operators) {
+    const button = document.getElementById(`${operator}`);
+    button.addEventListener('click', (event) => {
+        currentOperator = operator;
+        leftNum = displayText;
+        displayText = "";
+        writeToDisplay(operator);
+    })
+}
+
+resultBtn.addEventListener('click', (event) => {
+    console.log(leftNum + currentOperator + rightNum);
+    if(leftNum !== "" || currentOperator !== "") {
+        rightNum = displayText;
+        displayText = "";
+        operate(currentOperator, leftNum, rightNum);
+    }
+})
+
+clearBtn.addEventListener('click', (event) => {
+    leftNum = "";
+    currentOperator = "";
+    rightNum = "";
+    displayText = "";
+    writeToDisplay("");
+})
