@@ -1,21 +1,27 @@
 #container {
     background-color: #4e4b5e;
     border-radius: 12px;
-    border-left: 6px solid #605b7c;
+    border-left: 12px solid #605b7c;
     border-top: 6px solid #605b7c;
-    border-right: 6px solid #454350;
+    border-right: 8px solid #454350;
     border-bottom: 6px solid #454350;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: auto;
+    margin: 64px auto;
     padding: 64px 8px 48px;
     width: 480px;
 }
 
 #screen {
-    width: 420px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3em;
+    width: 400px;
     height: 72px;
+    padding: 16px 8px;
     background-color: #99a695;
     border-left: 3px solid #7b807a;
     border-top: 3px solid #7b807a;
@@ -29,7 +35,7 @@
     align-items: center;
     gap: 2rem;
     flex-wrap: wrap;
-    margin: 96px 64px 32px;
+    margin: 80px 64px 32px;
 }
 
 button {
