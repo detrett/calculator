@@ -51,8 +51,16 @@ button {
     padding: 16px 20px;
 }
 
-#clear {
+button.active {
+    background-color: #2a2646;
+}
+
+#C {
     background-color: #c27997;
+}
+
+button#equal:active {
+    background-color: #2a2646;
 }
 
 button:hover {
